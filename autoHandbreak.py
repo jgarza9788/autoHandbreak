@@ -17,7 +17,16 @@ dest_dir = "D:\Torrents\Movies\H265"
 
 # TODO
 # the extensions you want to convert
-extension_list = ['MKV','AVI']
+# extension_list = ['MKV','AVI']
+extension_list = ['MKV']
+
+# TODO
+# only convert files at or over this many bytes
+minSize = 7.5*10**9
+
+# TODO
+# location of HandbreakCLI
+handbreakCLI = r"C:\Users\JGarza\GitHub\autoHandbreak\HandBrakeCLI\HandBrakeCLI.exe"
 
 def encode(path, dest):
     for root_dir, dirs, files in os.walk(path, topdown=False):
@@ -30,16 +39,19 @@ def encode(path, dest):
                 input_file = os.path.join(root_dir,name)
                 output_file = os.path.join(dest_dir, base+".mp4")
 
-                print(input_file)
-                print(output_file)
-                if (os.path.exists(output_file)):
-                    print("skipped")
-                else:
-                    print('processing')
-                    # TODO
-                    # get HandbreakCLI and modify the args ...see end of file
-                    # note h.265 is about 1/3 the size of h.264
-                    subprocess.call( ["D:\Torrents\HandBrakeCLI\HandBrakeCLI.exe", "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
+                file_size = os.path.getsize(input_file)
+
+                if (file_size > minSize):
+                    print(input_file) 
+                    print(output_file)
+                    if (os.path.exists(output_file)):
+                        print("skipped")
+                    else:
+                        print('processing')
+                        # TODO
+                        # get HandbreakCLI and modify the args ...see end of file
+                        # note h.265 is about 1/3 the size of h.264
+                        subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
             else:
                 print(name.split('.')[-1].upper())
                 print(name,'not a video')
