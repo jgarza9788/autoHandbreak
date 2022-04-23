@@ -39,9 +39,9 @@ def encode(path, dest):
                 input_file = os.path.join(root_dir,name)
                 output_file = os.path.join(dest_dir, base+".mp4")
 
-                file_size = os.path.getsize(input_file)
+                i_file_size = os.path.getsize(input_file)
 
-                if (file_size > minSize):
+                if (i_file_size > minSize):
                     print(input_file) 
                     print(output_file)
                     if (os.path.exists(output_file)):
@@ -51,7 +51,13 @@ def encode(path, dest):
                         # TODO
                         # get HandbreakCLI and modify the args ...see end of file
                         # note h.265 is about 1/3 the size of h.264
-                        subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
+                        # subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
+
+                        subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "--encoder-preset", "H.265 NVENC 1080p",  "-s", "none", "--subtitle-default", "none" ])
+
+                        o_file_size = os.path.getsize(output_file)
+                        print('>>',name,i_file_size,o_file_size)
+
             else:
                 print(name.split('.')[-1].upper())
                 print(name,'not a video')
