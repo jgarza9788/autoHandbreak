@@ -18,11 +18,11 @@ dest_dir = "D:\Torrents\Movies\H265"
 # TODO
 # the extensions you want to convert
 # extension_list = ['MKV','AVI']
-extension_list = ['MKV']
+extension_list = ['MKV','MP4','AVI']
 
 # TODO
 # only convert files at or over this many bytes
-minSize = 7.5*10**9
+minSize = 11.5*10**9
 
 # TODO
 # location of HandbreakCLI
@@ -42,25 +42,27 @@ def encode(path, dest):
                 i_file_size = os.path.getsize(input_file)
 
                 if (i_file_size > minSize):
-                    print(input_file) 
-                    print(output_file)
-                    if (os.path.exists(output_file)):
-                        print("skipped")
-                    else:
-                        print('processing')
-                        # TODO
-                        # get HandbreakCLI and modify the args ...see end of file
-                        # note h.265 is about 1/3 the size of h.264
-                        # subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
+                    print(input_file)
+                    # print(input_file) 
+                    # print(output_file)
+                    # if (os.path.exists(output_file)):
+                    #     print("skipped")
+                    # else:
+                    #     print('processing')
+                    #     # TODO
+                    #     # get HandbreakCLI and modify the args ...see end of file
+                    #     # note h.265 is about 1/3 the size of h.264
+                    #     # subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "-e", "nvenc_h265", "--aencoder", "ac3", "-s", "none", "--subtitle-default", "none" ])
 
-                        subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "--encoder-preset", "H.265 NVENC 1080p",  "-s", "none", "--subtitle-default", "none" ])
+                    #     subprocess.call( [handbreakCLI, "-i", input_file, "-o", output_file, "--encoder-preset", "H.265 NVENC 1080p",  "-s", "none", "--subtitle-default", "none" ])
 
-                        o_file_size = os.path.getsize(output_file)
-                        print('>>',name,i_file_size,o_file_size)
+                    #     o_file_size = os.path.getsize(output_file)
+                    #     print('>>',name,i_file_size,o_file_size)
 
             else:
                 print(name.split('.')[-1].upper())
                 print(name,'not a video')
+                pass
 
 if __name__ == "__main__":
     encode(root_dir, dest_dir)
